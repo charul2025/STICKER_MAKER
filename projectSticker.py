@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Response
 from google import genai
 from pydantic import BaseModel
+import os
 class Generate(BaseModel):
     character : str
     hairColour : str
@@ -13,7 +14,7 @@ def hello():
 @app.post("/create")
 def inputt(generate : Generate):
     promptt  = f"A cute, cartoon-style {generate.character} with soft, {generate.hairColour} hair in gentle pastel shades, wearing a {generate.clothing}. Having a cheerful smile, big sparkling eyes, and a friendly, playful expression. The design uses minimalistic lines and soft shading, with bright and soothing colors. The background is a simple pastel tone with small, floating heart shapes, creating a warm and inviting sticker look."
-    client = genai.Client(api_key="API_KEY")
+    client = genai.Client(api_key=os.getenv("API_KEY"))
     result = client.models.generate_images(
         model="models/imagen-4.0-generate-preview-06-06",
         prompt = promptt,
